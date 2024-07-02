@@ -1,0 +1,63 @@
+--- WFM capacity planning data, this information is not realistic data (fictional). Below is the query to create two tables in SQL and 2 additional quieries ti integrate data into the created tables.--
+
+--Step 1. Create the tables called agents & call_center_kpis
+
+
+--A) Table agent
+
+CREATE TABLE agents (
+    agent_id SERIAL PRIMARY KEY,
+    agent_name VARCHAR(100),
+    agent_team VARCHAR(50),
+    hire_date DATE
+);
+
+
+--Table all_center_KPI
+
+
+CREATE TABLE call_center_kpis (
+    call_id SERIAL PRIMARY KEY,
+    agent_id INT REFERENCES agents(agent_id),
+    call_start_time TIMESTAMP,
+    call_end_time TIMESTAMP,
+    call_duration INT,
+    call_type VARCHAR(50),
+    customer_satisfaction INT,
+    issue_resolved BOOLEAN,
+    call_transferred BOOLEAN,
+    call_wait_time INT,
+    agent_rating INT,
+    call_outcome VARCHAR(100),
+    escalation_level INT,
+    date DATE
+);
+
+-- Step2. Integrate the data into the tables
+
+--A) integrate the agent data into the agents table
+
+INSERT INTO agents (agent_name, agent_team, hire_date) VALUES
+('Alice Johnson', 'Support', '2022-01-15'),
+('Bob Smith', 'Billing', '2021-06-10'),
+('Carol White', 'Technical', '2020-09-20');
+
+
+--B) integrate the call center data into the call_center_kpis table
+
+
+INSERT INTO call_center_kpis (
+    agent_id, call_start_time, call_end_time, call_duration, call_type, customer_satisfaction, issue_resolved, call_transferred, call_wait_time, agent_rating, call_outcome, escalation_level, date
+) VALUES
+(1, '2024-06-01 08:00:00', '2024-06-01 08:20:00', 20, 'Support', 5, TRUE, FALSE, 2, 4, 'Resolved', 0, '2024-06-01'),
+(2, '2024-06-01 08:05:00', '2024-06-01 08:25:00', 20, 'Billing', 3, FALSE, TRUE, 3, 3, 'Escalated to Supervisor', 1, '2024-06-01'),
+(3, '2024-06-01 08:10:00', '2024-06-01 08:30:00', 20, 'Technical', 4, TRUE, FALSE, 1, 5, 'Resolved', 0, '2024-06-01'),
+(1, '2024-06-02 09:00:00', '2024-06-02 09:15:00', 15, 'Support', 2, TRUE, TRUE, 4, 2, 'Resolved', 0, '2024-06-02'),
+(2, '2024-06-02 09:05:00', '2024-06-02 09:25:00', 20, 'Billing', 5, TRUE, FALSE, 2, 5, 'Resolved', 0, '2024-06-02'),
+(3, '2024-06-02 09:10:00', '2024-06-02 09:40:00', 30, 'Technical', 3, FALSE, TRUE, 3, 3, 'Escalated to Technical Team', 2, '2024-06-02'),
+(1, '2024-06-03 10:00:00', '2024-06-03 10:20:00', 20, 'Support', 4, TRUE, FALSE, 1, 4, 'Resolved', 0, '2024-06-03'),
+(2, '2024-06-03 10:05:00', '2024-06-03 10:25:00', 20, 'Billing', 4, TRUE, FALSE, 2, 4, 'Resolved', 0, '2024-06-03'),
+(3, '2024-06-03 10:10:00', '2024-06-03 10:35:00', 25, 'Technical', 5, TRUE, FALSE, 1, 5, 'Resolved', 0, '2024-06-03'),
+(1, '2024-06-04 11:00:00', '2024-06-04 11:15:00', 15, 'Support', 3, FALSE, TRUE, 2, 3, 'Escalated to Supervisor', 1, '2024-06-04');
+
+
